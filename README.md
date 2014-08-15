@@ -48,7 +48,8 @@ On Windows:           `npm install -g phonegap`
 
 On Mac or Linux:      `sudo npm install -g phonegap`
 
-This might take a few moments, while PhoneGap downloads and installs. 
+This might take a few moments, while PhoneGap downloads and installs. If this throws an error,
+make sure node js is configured in your PATH. 
 
 #### Step 2 - Create Phone Gap App
 
@@ -87,7 +88,7 @@ Run ->     `git init`
 Finally, pull down the source code in the GIT repository. Make sure not to clone the repository, as
 this will create a subfolder in the www that could mess up the phone gap build.
 
-Run->      `git pull https://github.com/atreynolds36/GTNexus-Mobile/`
+Run->      `git pull https://github.com/AppXpress/ToDoListMobileApp.git`
 
 You should see a new js, css, and img folder in the www folder and an index.html folder. These
 folders are the source of your phone gap app.
@@ -103,7 +104,7 @@ your PATH.
 
 #### Step 5 - Add Platform + Plugin
 
-Go into back into your project directory ( `cd ..` from your current location, the www folder). 
+Go into back into your project directory ( `cd ..` from your current location(the www folder)). 
 Now, add the specific platform you wish to deploy you app onto.
 
 For IOS, run ->		`cordova platform add ios`
