@@ -92,7 +92,16 @@ Run->      `git pull https://github.com/atreynolds36/GTNexus-Mobile/`
 You should see a new js, css, and img folder in the www folder and an index.html folder. These
 folders are the source of your phone gap app.
 
-#### Step 4 - Add Platform + Plugin
+#### Step 4 - Set up your sdk
+
+To add a certain platform, you must first download the necessary sdk and add it to
+your PATH. 
+
+* For Android, follow download from->        [Android SDK] (http://developer.android.com/sdk/index.html)
+* For IOS, follow download from ->           [IOS SDK](https://developer.apple.com/xcode/downloads/)
+* For Blackberry, follow download ->         [Blackberry SDK](http://developer.blackberry.com/)
+
+#### Step 5 - Add Platform + Plugin
 
 Go into back into your project directory ( `cd ..` from your current location, the www folder). 
 Now, add the specific platform you wish to deploy you app onto.
@@ -102,6 +111,9 @@ For IOS, run ->		`cordova platform add ios`
 For Android, run -> `cordova platform add android`
 
 Other options can be seen [here] (http://docs.phonegap.com/en/edge/guide_cli_index.md.html#The%20Command-Line%20Interface)
+
+It is important to note that an IOS app cannot be built on Windows OS. More information on the topic
+can be found [here] (http://stackoverflow.com/questions/2065343/why-isnt-there-xcode-for-windows)
 
 To confirm that this step worked correctly, go into platforms folder. You should see a folder indicating
 the platform you have just added.
@@ -117,25 +129,18 @@ Run->	`cordova plugin add org.apache.cordova.network-information`
 You can run `cordova plugin ls` to confirm that the plugin was added correctly.
  
 	
-#### Step 5 - Build you app 
+#### Step 6 - Build your app 
 
-You are ready to build you app. For the app to be successfully built, your platform specific
-SDK must be downloaded and added to your PATH.   
-	
-* For Android, follow download from->        [Android SDK] (http://developer.android.com/sdk/index.html)
-* For IOS, follow download from ->           [IOS SDK](https://developer.apple.com/xcode/downloads/)
-* For Blackberry, follow download ->         [Blackberry SDK](http://developer.blackberry.com/)
+You are ready to build your app. 
 
-Once you have done this, build your app.
-
-Run ->   `cordova buid`
+Run ->   `cordova build`
 
 This might take a few seconds the first time. You should see **BUILD SUCCESSFUL** message to indicate
 that the app has been built. If you get errors, make sure your path is configured correctly. For android,
-apache ant and your jre must be attached to your path. For any type of build, your SDK must also be 
+apache ant and your jre must be attached to your path. For any type of build, recall that your SDK must also be 
 attached to the path.
 
-#### Step 6 - Deployment
+#### Step 7 - Deployment
 
 The app now should be ready for deployment. Open up your SDK and import the built app.
 
