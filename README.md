@@ -104,8 +104,8 @@ your PATH.
 
 #### Step 5 - Add Platform + Plugin
 
-Go into back into your project directory ( `cd ..` from your current location(the www folder)). 
-Now, add the specific platform you wish to deploy you app onto.
+Go back into your project directory ( `cd ..` from your current location(the www folder)). 
+Now, add the specific platform you wish to deploy your app onto.
 
 For IOS, run ->		`cordova platform add ios`
 
@@ -278,7 +278,6 @@ workflow in order to assign one to an organization and eventually mark the task 
 
 ### Additional Notes
 
-- This repository contains a branch, Android App, that contains a build of the app on the **Android Platform**
 - The App uses the Jquery Mobile web framework. More information on that can be found [here](http://jquerymobile.com/).
 
 
