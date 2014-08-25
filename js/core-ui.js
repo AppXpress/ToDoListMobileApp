@@ -230,6 +230,8 @@ $( document ).ready(function() {
     $('#logoutbtnTask').click( function(){
     	$.mobile.changePage('#login');
     });
+	
+	$('.alertPopup').popup();
 
 });
 /*

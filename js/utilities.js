@@ -153,7 +153,7 @@ function ajaxResponseErrorHandle(statusCode){
         alertPopup("Response not found");
     else if(statusCode == 406)
         alertPopup("Response Type(JSON) incompatible");
-    else if(statusCode == 500)
+	else if(statusCode == 500)
         alertPopup("Server 500 error");
     else if(statusCode == 503)
         alertPopup("Service temporary unavailable");
@@ -258,8 +258,9 @@ function showIncorrectLogin(){
 }
 
 function alertPopup(msg){
-	$('.alertPopup').empty();
+	$('div .alertPopup').empty();
 	$('.alertPopup').text(msg);
 	$(".alertPopup").popup("open");
+	alert("Enter hur");
 }
 

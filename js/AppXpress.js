@@ -32,7 +32,7 @@ var AppXpress = function() {
     	try{
         	console.log("in init task");
         	var newTask = {
-            	"type" : "$TaskQ3" ,
+            	"type" : taskGlobalType ,
             	"complete": "false",
             	"title": title,
             	"description": descr ,

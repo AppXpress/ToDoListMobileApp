@@ -7,7 +7,7 @@ var passwordCookieName = "gtnexus-todo-password";
 var username = null;
 var password = null;
 var authToken = null;
-var orgMemberId = null;
+var orgMemberId = localStorage.getItem('memberId');
 var PARTY_ROLE;
 /*
  * Presets the username and password fields if the user
@@ -169,6 +169,7 @@ function setUserDetails(response){
             var orgUserId = js.create.result.current_username;
             localStorage.setItem('orgName', orgName);
             localStorage.setItem('userId' , orgUserId);
+			localStorage.setItem('memberId', orgMemberId);
             restAPI.getCommunity(function () {
             }, dictateRole, 'Init App Comm');
         }
@@ -179,6 +180,7 @@ function setUserDetails(response){
             var orgUserId = js.result[0].current_username;
             localStorage.setItem('orgName', orgName);
             localStorage.setItem('userId' , orgUserId);
+			localStorage.setItem('memberId' , orgMemberId);
             restAPI.getCommunity(function () {
             }, dictateRole, 'Init App Comm');
         }

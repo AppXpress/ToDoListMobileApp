@@ -9,12 +9,21 @@ function initList(){
     try{
         var title = $('#listTitle').val().trim();
         customShowLoading('Create list...');
-        var url = "$TodoListQ1/?dataKey=" + softwareProviderDataKey;
+        var url = listGlobalType + "/?dataKey=" + softwareProviderDataKey;
         url += "&action=create";
         var rawData = {
-            type : '$TodoListQ1',
-            title : title
+            "type" : listGlobalType ,
+            "title" : title ,
+			//List must have a licensee field, in this case the field buyer is
+			//tied to the current org. The current org is populated because the current
+			//orgs member Id is stored in orgMemberId on entry into the app
+			"buyer" : { 
+				"memberId" : orgMemberId 
+			}
         };
+		alert(listGlobalType);
+		alert(title);
+		alert(orgMemberId);
         //Converts the javascript array to JSON format
         var jsonStr = JSON.stringify(rawData);
         ajaxConnectPost(applicationHostName, url, jsonStr, true, 'json', createListSuccess,
@@ -29,8 +38,15 @@ function initList(){
  * indicates that said page needs to be updated
  */
 function backToHome(response){
+	if ( response.status == 200 || response.status == 201 ||
+		response.status == 202 ){
+		requireRESTfulService = true;
+		action = 'List added!';
+	}
+	else
+		ajaxResponseErrorHandle(response.status);
+	//alert( response.status );
     customHideLoading();
-    requireRESTfulService = true;
     $.mobile.changePage("#home");
 }
 
