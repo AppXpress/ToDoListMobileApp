@@ -88,7 +88,7 @@ function exit(message) {
 function customShowLoading(msg){
     console.log("custom load : " + msg);
     if(!msg){
-        msg = "no msg";
+        msg = "Loading...";
     }
     var interval = setInterval(function () {
         $.mobile.loading( 'show', {
@@ -223,7 +223,7 @@ function isNetworkAvailable() {
 	setTimeout( function(){
 		networkState = navigator.connection.type; } 
 	, 500);
-	console.log('nework here ' + networkState);
+	console.log('network here ' + networkState);
     //No connection
 	if (networkState == Connection.NONE) {
 		return false;
@@ -261,6 +261,5 @@ function alertPopup(msg){
 	$('div .alertPopup').empty();
 	$('.alertPopup').text(msg);
 	$(".alertPopup").popup("open");
-	alert("Enter hur");
 }
 

@@ -21,9 +21,6 @@ function initList(){
 				"memberId" : orgMemberId 
 			}
         };
-		alert(listGlobalType);
-		alert(title);
-		alert(orgMemberId);
         //Converts the javascript array to JSON format
         var jsonStr = JSON.stringify(rawData);
         ajaxConnectPost(applicationHostName, url, jsonStr, true, 'json', createListSuccess,
