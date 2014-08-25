@@ -1,14 +1,12 @@
 /**
  * Created by areynolds on 6/2/2014.
  */
-var applicationHostName = "QA2";
 var applicationAuthCookieName = "gtnexus-todo";
 var usernameCookieName = "gtnexus-todo-username";
 var passwordCookieName = "gtnexus-todo-password";
 var username = null;
 var password = null;
 var authToken = null;
-var softwareProviderDataKey = "ecc1b12ce5f5e2aa173648a03d7aa4607d52e847";
 var orgMemberId = null;
 var PARTY_ROLE;
 /*

@@ -11,7 +11,7 @@ var action = null;
  */
 function showTask(){
     try{
-        var url = "$TaskQ3/?dataKey=" + softwareProviderDataKey;
+        var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
         console.log("click list uid " + $('body').data("listuid"));
 
         //Get uid of task clicked on

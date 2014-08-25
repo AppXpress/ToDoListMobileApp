@@ -1,3 +1,28 @@
+/*	Global settings
+ *  
+ *  Global variables that dictate environment & global object types
+ * 
+ * 
+ */
+var restServiceURL = new Object();
+restServiceURL["SF"] = "https://test.salesforce.com/services/oauth2/token";
+restServiceURL["PROD"] = "../prod/rest/"; //"http://api.tradecard.com/rest/";
+restServiceURL["CQA"] = "../cqa/rest/"; //"http://cqa.tradecard.com/rest/";
+restServiceURL["SUPORT"] = "../support/rest/"; //"http://support.tradecard.com/rest/";
+restServiceURL["TRAINING"] = "../training/rest/"; //"http://training.tradecard.com/rest/";
+restServiceURL["QA"] = "http://commerce.qa.tradecard.com/rest/310/";
+restServiceURL["QA2"] = "http://commerce.qa2.tradecard.com/rest/310/";
+
+var softwareProviderDataKey = "ecc1b12ce5f5e2aa173648a03d7aa4607d52e847";
+
+var applicationHostName = "QA2";
+
+var taskGlobalType = "$TaskQ3";
+
+var currentUserGlobalType = "$CurrentUserQ1";
+
+var listGlobalType = "$TodoListQ1";
+
 /*
  * Sets specific seller display settings
  */

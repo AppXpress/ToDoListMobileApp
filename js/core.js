@@ -1,14 +1,6 @@
 /**
  * Created by areynolds on 5/28/2014.
  */
-var restServiceURL = new Object();
-restServiceURL["SF"] = "https://test.salesforce.com/services/oauth2/token";
-restServiceURL["PROD"] = "../prod/rest/"; //"http://api.tradecard.com/rest/";
-restServiceURL["CQA"] = "../cqa/rest/"; //"http://cqa.tradecard.com/rest/";
-restServiceURL["SUPORT"] = "../support/rest/"; //"http://support.tradecard.com/rest/";
-restServiceURL["TRAINING"] = "../training/rest/"; //"http://training.tradecard.com/rest/";
-restServiceURL["QA"] = "http://commerce.qa.tradecard.com/rest/310/";
-restServiceURL["QA2"] = "http://commerce.qa2.tradecard.com/rest/310/";
 
 
 /**

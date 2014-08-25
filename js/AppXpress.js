@@ -14,7 +14,7 @@ var AppXpress = function() {
 	 */
     this.getTaskByUid = function(success, complete, msg) {
         try{
-            var url = "$TaskQ3/?dataKey=" + softwareProviderDataKey;
+            var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
             url += "&id=" + $('body').data("taskuid");
             customShowLoading(msg);
             console.log(url);
@@ -40,7 +40,7 @@ var AppXpress = function() {
             	"assignee": assignee ,
             	"boolUnassigned" : unassign
         	};
-        	var url = "$TaskQ3/?dataKey=" + softwareProviderDataKey;
+        	var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
         	url += "&action=create";
 
 	        var jsonStr = JSON.stringify(newTask);
@@ -59,7 +59,7 @@ var AppXpress = function() {
 	 */
     this.getLists = function(success,complete){
     	try{
-        	var url = "$TodoListQ1/?dataKey=" + softwareProviderDataKey;
+        	var url = listGlobalType + "/?dataKey=" + softwareProviderDataKey;
         	url += "&oql=" + encodeURIComponent("1=1");
         	customShowLoading("Fetching user information...");
         	console.log(url);
@@ -75,7 +75,7 @@ var AppXpress = function() {
 	 */
     this.getTasksInList = function(success, complete, loadmsg){
         try{
-            var url = "$TaskQ3/?dataKey=" + softwareProviderDataKey;
+            var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
             var oql = "listuid="+ $('body').data("listuid");
             oql = encodeURIComponent(oql);
             url += "&oql=" + oql;
@@ -97,7 +97,7 @@ var AppXpress = function() {
 	 * to set the If-Match URL header
 	 */
     this.updateTask = function(success, complete, jsonStr, loadMsg){
-        var url = "$TaskQ3/?dataKey=" + softwareProviderDataKey;
+        var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
         url += "&id=" + $('body').data('taskuid');
         $('body').data("eTag", "\""+jsonStr.fingerprint+"\"");
         var j = JSON.stringify(jsonStr);
@@ -123,7 +123,7 @@ var AppXpress = function() {
 	 * to a specific state. The state is specified by the action parameter
 	 */
     this.transitionTask = function(success,complete, jsonResp , action) {
-        var url = "$TaskQ3/" + $('body').data('taskuid') + "/transition/";
+        var url = taskGlobalType + "/" + $('body').data('taskuid') + "/transition/";
         url += "wf_" + action;
         url += "/?dataKey=" + softwareProviderDataKey;
         var eTag = jsonResp.fingerprint;
@@ -143,7 +143,7 @@ var AppXpress = function() {
 	 */
     this.getTasksBySearch = function(success,complete){
         try{
-            var url = "$TaskQ3/?dataKey=" + softwareProviderDataKey;
+            var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
 
             var oql = '';
             if( $('#searchTaskName').val() != ''){
@@ -188,7 +188,7 @@ var AppXpress = function() {
 	 */
     this.getOrgInformation = function(oqlStr , success, complete ){
         try {
-            var url = "$CurrentUserQ1/?dataKey=" + softwareProviderDataKey;
+            var url = currentUserGlobalType + "/?dataKey=" + softwareProviderDataKey;
             var oql = encodeURIComponent(oqlStr);
             url += "&oql=" + oql;
             customShowLoading('Init App');
@@ -209,7 +209,7 @@ var AppXpress = function() {
      */
     this.createCurrentUser = function( complete ){
         try {
-            var url = "$CurrentUserQ1/?dataKey=" + softwareProviderDataKey;
+            var url = currentUserGlobalType + "/?dataKey=" + softwareProviderDataKey;
             url += "&action=create";
             customShowLoading('Init App');
             var jsonStr = {
@@ -230,7 +230,7 @@ var AppXpress = function() {
      */
     this.getSellerTasks = function( success, complete, loadmsg){
     	try{
-            var url = "$TaskQ3/?dataKey=" + softwareProviderDataKey;
+            var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
             var oqlStr = "1=1";
             oqlStr = encodeURIComponent(oqlStr);
             url += "&oql=" + oqlStr;
