@@ -40,15 +40,19 @@ Node.js is an environment that allows Javascript to be run outside of
 the browser. In this case, on the Phonegap cloud. It can be found [here] (http://nodejs.org/).
 Downloading and installing it is generally straight forward. 
 	
-#### Step 1 - Install Phonegap 
+#### Step 1 - Install Phonegap & Cordova 
 
-Once nodejs is installed, run the following command from your command prompt:
+Once nodejs is installed, run the following commands from your command prompt:
  
 On Windows:           `npm install -g phonegap`
+                      &    
+                      `npm install -g cordova`
 
 On Mac or Linux:      `sudo npm install -g phonegap`
+                      &
+					  `sudo npm install -g cordova`
 
-This might take a few moments, while PhoneGap downloads and installs. If this throws an error,
+This might take a few moments, while PhoneGap & Cordova downloads and installs. If this throws an error,
 make sure node js is configured in your PATH. 
 
 #### Step 2 - Create Phone Gap App

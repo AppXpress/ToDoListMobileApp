@@ -12,6 +12,7 @@ restServiceURL["SUPORT"] = "../support/rest/"; //"http://support.tradecard.com/r
 restServiceURL["TRAINING"] = "../training/rest/"; //"http://training.tradecard.com/rest/";
 restServiceURL["QA"] = "http://commerce.qa.tradecard.com/rest/310/";
 restServiceURL["QA2"] = "http://commerce.qa2.tradecard.com/rest/310/";
+restServiceURL['SUPPORTQ'] = "http://commerce-supportq.qa.gtnexus.com/rest/310";
 
 var softwareProviderDataKey = "ecc1b12ce5f5e2aa173648a03d7aa4607d52e847";
 

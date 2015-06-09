@@ -156,7 +156,7 @@ function ajaxResponseErrorHandle(statusCode){
 	else if(statusCode == 500)
         alertPopup("Server 500 error");
     else if(statusCode == 503)
-        alertPopup("Service temporary unavailable");
+        alertPopup("Service temporarily unavailable");
     else 
         alertPopup("Unrecognized response-status : " + statusCode);
     customHideLoading();
