@@ -4,6 +4,7 @@
 var oqlOriginSearch = false;
 var initialHistory = true;
 var emptyList;
+
 /*
  * Fetches a list of task based on a couple of conditions. Based on whether
  * the fetch is coming from a search, it will fetch a list of task based
