@@ -16,7 +16,7 @@ restServiceURL['SUPPORTQ'] = "http://commerce-supportq.qa.gtnexus.com/rest/310";
 
 var softwareProviderDataKey = "ecc1b12ce5f5e2aa173648a03d7aa4607d52e847";
 
-var applicationHostName = "QA2";
+var applicationHostName = "SUPPORTQ";
 
 var taskGlobalType = "$TaskQ3";
 
