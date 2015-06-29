@@ -12,17 +12,26 @@ restServiceURL["SUPORT"] = "../support/rest/"; //"http://support.tradecard.com/r
 restServiceURL["TRAINING"] = "../training/rest/"; //"http://training.tradecard.com/rest/";
 restServiceURL["QA"] = "http://commerce.qa.tradecard.com/rest/310/";
 restServiceURL["QA2"] = "http://commerce.qa2.tradecard.com/rest/310/";
-restServiceURL['SUPPORTQ'] = "http://commerce-supportq.qa.gtnexus.com/rest/310";
+restServiceURL["SUPPORTQ"] = "https://commerce-supportq.qa.gtnexus.com/rest/310/";
 
-var softwareProviderDataKey = "ecc1b12ce5f5e2aa173648a03d7aa4607d52e847";
+var softwareProviderDataKey = "b8b9d6e559319c4887be5d8d39866d1974c139ef";
 
 var applicationHostName = "SUPPORTQ";
 
-var taskGlobalType = "$TaskQ3";
+var taskGlobalType = "$TaskS1";
 
-var currentUserGlobalType = "$CurrentUserQ1";
+var currentUserGlobalType = "$CurrentUserS1";
 
-var listGlobalType = "$TodoListQ1";
+var listGlobalType = "$ListS1";
+
+function initSettings(){
+	//Buyer Side
+	if(PARTY_ROLE == "buyer")
+		setBuyerSettings();
+	//Seller Side
+	else
+		setSellerSettings();
+}
 
 /*
  * Sets specific seller display settings
@@ -42,6 +51,7 @@ function setBuyerSettings(){
 	$('#tasklist a[name="backbtn"]').show();
 	$('#beforeAddPg').show();
 	$('.actionMsg').text('');
+	requireRESTfulService = true;
 	$.mobile.changePage("#home", { transition: "pop" });
 }
 /*

@@ -25,7 +25,14 @@ function initTask(){
             }
         }
     }
-    restAPI.addTask( callSuccessTask , backToViewTask , title, description , assigneeObj,
+
+    if( $('#taskAnchor').val() == null ) {
+        alert('Must select Order to Anchor Task');
+        return;
+    }
+
+
+    restAPI.addTask( callSuccessTask , backToViewTask , title, description , assigneeObj, $('#taskAnchor').val() ,
     	boolUnassign);
 }
 /*
@@ -76,6 +83,8 @@ function initLookupForm(){
     $('#taskTitle').val('');
     $('#boolUnassigned').attr("checked", false);
 
+    restAPI.getLastOrders( function() {} , populateOrders , "Getting orders...", 300);
+
     if(!community)
         restAPI.getCommunity(function(){} , completeLookupForm, "Locating community...");
 }
@@ -122,4 +131,24 @@ function completeLookupForm(response){
     }
     customHideLoading();
     $('#assignTask').selectmenu('refresh');
+}
+function populateOrders(response){
+    if( response.status == 200 || response.status == 201 ||
+        response.status == 202 ){
+
+        var getData = JSON.stringify(response.responseJSON);
+        var orders = JSON.parse(getData).result;
+        for( var i = 0 ; i < orders.length; i++){
+
+            var order = orders[i];
+            var $option = $('<option> ' + order.poNumber + ' </option>');
+            $option.prop('value', + order.orderUid);
+            $("#taskAnchor").append($option);
+        }
+        customHideLoading();
+        $('#taskAnchor').selectmenu('refresh');
+    }
+    else{
+        ajaxResponseErrorHandle(response.status);
+    }
 }

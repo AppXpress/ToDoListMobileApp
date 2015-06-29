@@ -164,6 +164,15 @@ you have to do is run  -> `cordova build` from the command prompt and the app wi
 	
 More information on Phone Gap can be found from their [installation guide] (http://docs.phonegap.com/en/edge/index.html)
 
+### Platform Module Import
+============================
+
+For the App to function correctly, the org id using the app must have access to the correct Platform Module that
+contains the Custom Objects that are used by the mobile app. The Platform Module is included when you pull this GIT
+repository, in the PM zip folder. In the GTNexus Plaform Console screen, press **Manage Modules** and then press
+**Tools -> Important** and select the PM folder. This will add this specific Platform Module to your Platform Console.
+Ensure that your org has the correct rights to access the $TaskS1 and $ListS1 custom objects( done in the admin environment) 
+and the app is ready to be used!
 
 ### Using the To-Do List App
 ============================

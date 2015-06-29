@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
         <meta name="description" content="Phonegap To-Do List App">
         <meta name="author" content="Andrew Reynolds">
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
         <link rel="stylesheet" href="./css/jquery.mobile-1.4.2.css" />
         <link rel="stylesheet" href="./css/todo.css"/>
         <script type="text/javascript" src="js/jquery.js"></script>
@@ -272,6 +273,15 @@
                 <label for="taskDescription"> Enter task Description</label>
                 <textarea id="taskDescription"></textarea>
             </div>
+
+            <form>
+                <div class="ui-field-contain">
+                    <label for="taskAnchor">Task Anchor</label>
+                    <select name="select-native-4" id="taskAnchor" data-native-menu="false" data-theme="a">
+                        <option>Choose Order to Attach Task</option>
+                    </select>
+                </div>
+            </form>
 
             <form>
                 <div class="ui-field-contain">

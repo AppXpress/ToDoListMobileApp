@@ -28,17 +28,20 @@ var AppXpress = function() {
      * Makes a rest call to create a new task and specifying certain fields
      * of the custom object according to user enter values
      */
-    this.addTask = function( success, complete, title, descr, assignee, unassign){
+    this.addTask = function( success, complete, title, descr, assignee, anchor, unassign){
     	try{
         	console.log("in init task");
         	var newTask = {
             	"type" : taskGlobalType ,
-            	"complete": "false",
             	"title": title,
             	"description": descr ,
             	"listuid" : $('body').data('listuid') ,
             	"assignee": assignee ,
-            	"boolUnassigned" : unassign
+            	"boolUnassigned" : unassign ,
+                "anchor": {
+                    "type": "OrderDetail",
+                    "transactionId": anchor
+                }
         	};
         	var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
         	url += "&action=create";
@@ -51,6 +54,31 @@ var AppXpress = function() {
      	   alertPopup(e);
     	}    	
     };
+    this.addList = function( success, loadmsg ){
+        try{
+            var title = $('#listTitle').val().trim();
+            customShowLoading(loadmsg);
+            var url = listGlobalType + "/?dataKey=" + softwareProviderDataKey;
+            var rawData = {
+                "type" : listGlobalType ,
+                "title" : title ,
+                "active" : "true" ,
+                //List must have a licensee field, in this case the field buyer is
+                //tied to the current org. The current org is populated because the current
+                //orgs member Id is stored in orgMemberId on entry into the app
+                "buyer" : {
+                    "memberId" : orgMemberId
+                }
+            };
+            //Converts the javascript array to JSON format
+            var jsonStr = JSON.stringify(rawData);
+            ajaxConnectPost(applicationHostName, url, jsonStr, true, 'json', function(){},
+                success, setHeader, connectionError);
+
+        }catch(e){
+            alertPopup(e);
+        }
+    }
 
     this.getListByUid = function(listuid) {};
 	/*
@@ -60,7 +88,8 @@ var AppXpress = function() {
     this.getLists = function(success,complete){
     	try{
         	var url = listGlobalType + "/?dataKey=" + softwareProviderDataKey;
-        	url += "&oql=" + encodeURIComponent("1=1");
+        	//url += "&oql=" + encodeURIComponent('active="true"');
+            url += "&oql=" + encodeURIComponent('1=1');
         	customShowLoading("Fetching user information...");
         	console.log(url);
         	ajaxConnect(applicationHostName, url, 'GET', true, 'json', success,
@@ -97,11 +126,13 @@ var AppXpress = function() {
 	 * to set the If-Match URL header
 	 */
     this.updateTask = function(success, complete, jsonStr, loadMsg){
-        var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
-        url += "&id=" + $('body').data('taskuid');
+        var url = taskGlobalType + "/" + $('body').data('taskuid') + "/?dataKey=" + softwareProviderDataKey;
+        //url += "&id=" + $('body').data('taskuid');
         $('body').data("eTag", "\""+jsonStr.fingerprint+"\"");
         var j = JSON.stringify(jsonStr);
         customShowLoading(loadMsg);
+        console.log("URL " + url);
+        console.log( j );
         ajaxConnectPost(applicationHostName, url, j, true, 'json', success,
             complete, setHeader, connectionError);
 
@@ -192,7 +223,6 @@ var AppXpress = function() {
             var oql = encodeURIComponent(oqlStr);
             url += "&oql=" + oql;
             customShowLoading('Init App');
-            console.log(url);
             ajaxConnect(applicationHostName, url, 'GET', true, 'json', success,
                 complete, setHeader, connectionError);
             customHideLoading();
@@ -216,7 +246,6 @@ var AppXpress = function() {
                 "type" : "$CurrentUserQ1"
             };
             jsonStr = JSON.stringify(jsonStr);
-            console.log(url);
             ajaxConnectPost(applicationHostName, url, jsonStr, true, 'json', function(){},
                 complete, setHeader, connectionError);
             customHideLoading();
@@ -245,6 +274,33 @@ var AppXpress = function() {
         }
     };
 
+    this.getSelf = function( success, complete, loadmsg){
+        try {
+            var url = "User/self/?dataKey=" + softwareProviderDataKey;
+            customShowLoading(loadmsg);
+            ajaxConnect(applicationHostName, url, 'GET', true, 'json', success,
+                complete, setHeader, connectionError);
+            customHideLoading();
+        }catch(e){
+            alertPopup(e);
+        }
+    }
+    this.getLastOrders = function( success, complete, loadmsg, days) {
+        try {
+            var url = "OrderDetail/?dataKey=" + softwareProviderDataKey;
+            var oqlStr = "OrderTerms.orderDate.Issue IN @(Last "+days+" days)";
+            oqlStr = encodeURIComponent(oqlStr);
+            url += "&oql=" + oqlStr;
+            customShowLoading(loadmsg);
+            console.log(url);
+            ajaxConnect(applicationHostName, url, 'GET', true, 'json', success,
+                complete, setHeader, connectionError);
+            customHideLoading();
+        }
+        catch (e) {
+            alertPopup(e);
+        }
+    }
 };
 
 

@@ -22,6 +22,7 @@ $(document).on("pagebeforeshow","#login",function(){
         var uname = localStorage.getItem("gtnx-uname");
         var pwd = localStorage.getItem("gtnx-pwd");
 
+
         $("#username").val(uname);$("#password").val(pwd);
     }
 
@@ -41,8 +42,7 @@ function login() {
     }
     //If username is changed, remove username specific data
     if( username != localStorage.getItem('gtnx-uname') ){
-        localStorage.removeItem('orgName');
-        localStorage.removeItem('partyRole');
+        localStorage.removeItem('user-known');
     }
 
     authToken = encodeHeader(username, password);
@@ -70,45 +70,32 @@ function login() {
     return false;
 
 }
-function connectionError(obj , str){
-	console.log("in no connection");
+function connectionError(obj , str, errorThrown){
+    console.log(obj);
+    console.log(str);
+    console.log(errorThrown);
+	console.log("Connection Error");
+    customHideLoading();
+    alert("Error with request");
 }
 /*
- * On success of login rest call
+ * On success of login rest call. Retrieved locally stored
+ * about the user, or if information not available makes
+ * REST API calls to get information on user
  */
 function loginSuccess(response) {
-
+    console.log('login success');
     //for testing
     localStorage.setItem("gtnx-creds","on");
-    //save credentials
-    var credStorage = localStorage.getItem("gtnx-creds");
-    //if(credStorage == "on"){
-        //localStorage.setItem("gtnx-uname", readCookie(usernameCookieName));
-        //localStorage.setItem("gtnx-pwd", readCookie(passwordCookieName));
-        //localStorage.setItem("gtnx-uname", "andrew@buy");
-        //localStorage.setItem("gtnx-pwd", "tradecard");
-        
-    //}
-    //else{
-        localStorage.setItem("gtnx-uname", username);
-        localStorage.setItem("gtnx-pwd", password);
-    //}
-
-    // show inbox
-    //loginCallback(response);
-}
-/*
- * If the user is correctly logged in, sets the
- * user details to match the details of the 
- * current org using the app
- */
-function loginCallback() {
-    // setTimeout(function() {
-    if (isLoggedIn()) {
-        getUserDetails();//set current user org name
+    localStorage.setItem("gtnx-uname", username);
+    localStorage.setItem("gtnx-pwd", password);
+    if(localStorage.getItem("user-known")){
+        PARTY_ROLE = localStorage.getItem('partyRole');
+        initSettings();
     }
-    // }, 0);
-
+    else{
+        restAPI.getSelf( function() {} , defineSelf, 'Init App');
+    }
 }
 /*
  * On complete callback of login
@@ -118,35 +105,32 @@ function completeCallback(response) {
         || response.status == 202) {
             //var eTag = response.getResponseHeader('Etag');
             customHideLoading();
-            requireRESTfulService = true;
-            getUserDetails();
+            console.log('complete call back for login');
     }
     else {
         ajaxResponseErrorHandle(response.status);
     }
 }
-function initSettings(){
-	//Buyer Side
-    if(PARTY_ROLE == "buyer")
-    	setBuyerSettings();
-    //Seller Side
-    else
-    	setSellerSettings();               
-}
-/*
-    NOTE - This will all be changed once 'who-am-i' rest call is in place
-     -Work around that depends on partyRoleCode in community list-
+/**
+ *  Method on completion of call to API to find users 'self'. Defines
+ *  name and org variables and stores them to avoid future REST calls.
+ *  Makes another rest call to determine whether 'self' is a buyer
+ *  or a seller
  */
-function getUserDetails(){
-    //var oqlStr = "username='"+readCookie(usernameCookieName)+"'";
-    if( localStorage.getItem('partyRole') != null ){
-        	PARTY_ROLE = localStorage.getItem('partyRole');
-        	initSettings();
-        }
-    //Figure out party role
-    else {
-        var oqlStr = "current_username='" + username + "'";
-        restAPI.getOrgInformation(oqlStr, function () {}, setUserDetails);
+function defineSelf(response){
+    if(response.status == 200 || response.status == 201 ||
+        response.status == 202 ){
+        var json = JSON.stringify(response.responseJSON);
+        var js = JSON.parse(json);
+        localStorage.setItem('orgName', js.name);
+        localStorage.setItem('userId' , js.uid);
+        orgMemberId = js.organizationUid;
+        localStorage.setItem('memberId', orgMemberId);
+        restAPI.getCommunity(function () {
+        }, dictateRole, 'Init App Comm');
+    }
+    else{
+        ajaxResponseErrorHandle(response.status);
     }
 }
 /*
@@ -157,7 +141,6 @@ function getUserDetails(){
  */
 function setUserDetails(response){
     //set orgName for app here
-    //alertPopup(js.result[0]);
     console.log(response);
     if(response.status == 200 || response.status == 201 ||
         response.status == 202 ){
@@ -200,6 +183,7 @@ function setUserDetails(response){
  * org in the GTNexus community
  */
 function dictateRole(response){
+    console.log('enter dictate');
     if(response.status == 200 || response.status == 201 ||
         response.status == 202 ){
         var json = JSON.stringify(response.responseJSON);
@@ -219,6 +203,7 @@ function dictateRole(response){
             }
         }
         localStorage.setItem('partyRole', PARTY_ROLE);
+        localStorage.setItem('user-known', 'TRUE' );
         initSettings();
     }
     else{

@@ -48,21 +48,13 @@ function setList(response){
                 var $temp = $('<li> <a href="#tasklist">' + title + '</a></li>');
                 $temp.attr("id", singleList.uid);
                 $temp.click( function() {
-                    if( $('body').data('listuid') != $(this).attr('id') ) {
-                        requireRESTfulService = true;
-                        initialHistory = true;
-                    }
-                    setListUid( $(this).attr('id'));
-                });
-                $temp.on("swipeleft", function(){
+                    console.log("recognize click");
+                    transitionToTaskList( $(this));
+                }).on("swipeleft", function(){
                     console.log("recognize swipe right");
-                    if( $('body').data('listuid') != $(this).attr('id') ) {
-                        requireRESTfulService = true;
-                        initialHistory = true;
-                        $.mobile.changePage("#tasklist", {transition:"slide"} );
-                    }
-                    setListUid( $(this).attr('id'));
+                    transitionToTaskList( $(this));
                 });
+
                 /*
                 $temp.on("swiperight", function(){
                    console.log("recognize swipe left");
@@ -83,6 +75,16 @@ function setList(response){
         ajaxResponseErrorHandle(response.status);
     }
     customHideLoading();
+}
+function transitionToTaskList(list){
+    console.log('going to task list -> ' + list.attr('id') );
+    if( $('body').data('listuid') != list.attr('id') ) {
+        requireRESTfulService = true;
+        initialHistory = true;
+        $('body').data("listuid" , list.attr('id'));
+    }
+    $.mobile.changePage("#tasklist", {transition:"slide"} );
+
 }
 
 

@@ -6,6 +6,7 @@
  * platform. Title is extracted from user enter textfield
  */
 function initList(){
+    /*
     try{
         var title = $('#listTitle').val().trim();
         customShowLoading('Create list...');
@@ -29,6 +30,8 @@ function initList(){
     }catch(e){
         alertPopup(e);
     }
+    */
+    restAPI.addList( backToHome, 'Creating List...');
 }
 /*
  * Sends the mobile page back to the apps homepage and

@@ -55,7 +55,7 @@ function setTaskList(response){
         if(taskList){
             for( var i = 0; i < taskList.length; i++ ){
                 var tempTask = taskList[i];
-                if(tempTask.complete != "true"){
+                if(tempTask.state != "completed"){
                 	emptyList = false;
                     console.log(tempTask.title);
                     var title = tempTask.title;
@@ -64,13 +64,16 @@ function setTaskList(response){
                     var $colOne = $('<td></td>');
                     var $colTwo = $('<td></td>');
                     var $tempCheck = $('<input type="checkbox" class="taskCheckClass">');
+                    if( $tempCheck.state == " unassigned "){
+                        $($tempCheck).checkboxradio('disable');
+                    }
                     $tempCheck.attr("id", tempTask.uid);
                     $tempCheck.change( function() {
                         $('#completeStatus').prop('value', 'open');
                         setTaskUid( $(this).attr('id') );
-                        taskComplete();
+                        listTaskCheckAction();
                     });
-                    console.log(tempTask.complete);
+                    console.log(tempTask.state);
                     var $tsk = $('<a href="#viewtask" class="ui-btn"></a>');
                     $tsk.append(title);
                     $colOne.append($tempCheck);
@@ -123,7 +126,7 @@ function displayHistory(response){
         if(taskList){
             for( var i = 0; i < taskList.length; i++ ){
                 var tempTask = taskList[i];
-                if(tempTask.complete == "true") {
+                if(tempTask.state == "completed") {
                     console.log(tempTask.title);
                     var title = tempTask.title;
                     if (!title) {

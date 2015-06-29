@@ -1,8 +1,8 @@
 /**
  * Created by areynolds on 6/13/2014.
  */
-var setComplete;
 var action = null;
+var currentTask;
 /*
  * Displays a task. For the task to be displayed, a rest call is made
  * to fetch a specific $TaskQ3 from the GTNexus platform. Import to note
@@ -26,7 +26,7 @@ function showTask(){
 }
 
 /*
- * On completed retrieval of a $TaskQ3 object, its data is
+ * On completed retrieval of a $TaskS1 object, its data is
  * utilized to correctly display it. For example, the tasks
  * title and description are pulled from the returned JSON
  * and displayed in the corrct html elements. 
@@ -39,43 +39,46 @@ function displayTask(response){
         //Get the response JSON
         var req = JSON.stringify(response.responseJSON);
         //Parse the JSON into a javascript associative array
-        var myTask = JSON.parse(req);
+        currentTask = JSON.parse(req);
         
-        $('#editable input').val( myTask.title);
-        $('#editable textarea').val(myTask.description);
-        $('#addnotes').val( myTask.notes);
+        $('#editable input').val( currentTask.title);
+        $('#editable textarea').val( currentTask.description);
+        $('#addnotes').val( currentTask.notes);
         showDefined();
         
         /*Different Types of Tasks - 
          * 		Buyer Side - Completed, Incompleted
          * 		Seller Side - Completed, Incompleted
          */
-        console.log(myTask);
+        console.log(currentTask);
         
         if( PARTY_ROLE == "buyer" ){
         	var assignTxt;
-        	if(myTask.boolUnassigned == "true") {
+        	if(currentTask.boolUnassigned == "true" && currentTask.state != "completed") {
             	assignTxt = $('<a href="#popupAssign" data-rel="popup"> Assign Task </a>');
             	if(!community)
                 	restAPI.getCommunity(function(){} , initAssignPopup, "Locating community...");
             	else
                 	initAssignPopup();
         	}
+            else if( currentTask.boolUnassigned == "true" && currentTask.state == "completed" ){
+                assignTxt = $('<h3> Task was never assigned </h3>');
+            }
        		else
-            	assignTxt = $('<h3> Task Assigned to : ' + myTask.assignee.name + '</h3>');
+            	assignTxt = $('<h3> Task Assigned to : ' + currentTask.assignee.name + '</h3>');
             $("#showIndivTask").append(assignTxt);
         	//Buyer Complete
-        	if( myTask.complete == "true" ){
+        	if( currentTask.state == "completed" ){
         		setBuyerCompleteTask();
         		$('#topeditbtn').text('').hide();
         		$('.display20').hide();
-        		appendCompleteTimeStamp( myTask.__metadata.modifyTimestamp );
+        		appendCompleteTimeStamp( currentTask.__metadata.modifyTimestamp );
         	}
         	//Buyer incomplete
         	else{
         		$('#editbtn').text('Save Changes');
         		$('.display20').show();
-        		setBuyerIncompleteTask( myTask.state );
+        		setBuyerIncompleteTask();
         		$('#topeditbtn').text('Edit').show();
         	}
         	
@@ -84,9 +87,9 @@ function displayTask(response){
         	$('.display20').hide();
         	$('#topeditbtn').text('').hide();
         	//Seller complete
-        	if( myTask.complete == "true"){
+        	if( currentTask.state == "completed"){
         		setSellerCompleteTask();
-        		appendCompleteTimeStamp( myTask.__metadata.modifyTimestamp );
+        		appendCompleteTimeStamp( currentTask.__metadata.modifyTimestamp );
         	}
         	//Seller incomplete
         	else{
@@ -126,7 +129,8 @@ function setBuyerCompleteTask(){
  * not yet been completed. Sets different variations depending
  * on which workflow state the task currently is in
  */
-function setBuyerIncompleteTask( state ){
+function setBuyerIncompleteTask( ){
+    var state = currentTask.state;
 	if( state == "tasked"){
 			console.log('tasked');
     	    $("#taskbtn").addClass('ui-disabled');
@@ -171,45 +175,34 @@ function setSellerIncompleteTask(){
  */
 function taskComplete(){
     var msg;
-    if( $('#completeStatus').val() == "complete")
+    if( currentTask.state == "unassigned" ){
+        alert("Cannot complete; no assignee");
+        $("#completeStatus").prop('checked', false);
+        customHideLoading();
+        return;
+    }
+
+    if( currentTask.state == "completed")
         msg = "Re opening task";
-    else
+    else if( currentTask.state == "tasked " || currentTask.state == "assigned")
         msg = "Moving Task to History...";
 
-    restAPI.getTaskByUid(function(){} , changeTaskStatus, msg);
+    changeTask( currentTask , msg );
 }
-/*
- * Complete callback from change of state rest call
- * Sends the response JSON to changeTask to update the
- * task on the server
- */
-function changeTaskStatus(response){
-    if( response.status == 200 || response.status == 201 ||
-        response.status == 202 ){
 
-        var getData = JSON.stringify(response.responseJSON);
-        console.log("get data here : " + getData);
-        changeTask(JSON.parse(getData));
-    }
-    else{
-        ajaxResponseErrorHandle(response.status);
-    }
-    customHideLoading();
-}
 /*
  * Makes the rest call to notify the server that the
  * task has changed states. 
  */
-function changeTask(rtnJSON){
+function changeTask(task , msg ){
     try{
         var set = $('#completeStatus').val();
-        rtnJSON.complete = ( set == "open") ? "true" : "false";
-        console.log( "rtn Complete " + rtnJSON.complete);
+        console.log( "rtn Complete " + task.state );
         //If complete, transition to completed. If incomplete, transition to assigned
         if( set == "open")
-            restAPI.updateTask(callSuccessTask, transitWorkflowComplete,rtnJSON,"Saving changes...");
+            restAPI.updateTask(callSuccessTask, transitWorkflowComplete,task, msg);
         else
-            restAPI.updateTask(callSuccessTask, transitWorkflowReopen,rtnJSON,"Saving changes...");
+            restAPI.updateTask(callSuccessTask, transitWorkflowReopen,task, msg);
 
     }catch(e){
         alertPopup(e);
@@ -220,7 +213,6 @@ function changeTask(rtnJSON){
  * loaded with the GTNexus community, does so. The community
  * is obtained with a rest call to the API
  */
-var assigneeMemId = null;
 var loadedAssignPopup = false;
 function initAssignPopup(response){
     //Call coming from restful service
@@ -251,29 +243,13 @@ function initAssignPopup(response){
     customHideLoading();
 }
 /*
- * Gets a specific task so that it can be assigned
+ * Gets the UID of the party that was selected by the user
  */
 function updateAssignee(memId){
-    assigneeMemId = memId.substring(1);
-    restAPI.getTaskByUid(function(){} , assigneeComback , "Finalizing Changes...");
+    var selectedID = memId.substring(1);
+    addAssignee(currentTask , selectedID);
 }
-/*
- * Handles JSON returned by rest call to get a specific
- * task
- */
-function assigneeComback(response){
-    if( response.status == 200 || response.status == 201 ||
-        response.status == 202 ){
 
-        var getData = JSON.stringify(response.responseJSON);
-        console.log("get data here : " + getData);
-        addAssignee(JSON.parse(getData));
-    }
-    else{
-        ajaxResponseErrorHandle(response.status);
-    }
-    customHideLoading();
-}
 
 /*
  * Gets the party that has been selected to be assigned
@@ -281,13 +257,15 @@ function assigneeComback(response){
  * object. The specific task has now been transitioned to the
  * assigned state
  */
-function addAssignee( rtrn ){
+function addAssignee( rtrn , memberID){
     var assigneeObj;
     for (var i = 0; i < community.length; i++) {
-        if (community[i].memberId == assigneeMemId) {
+        if (community[i].memberId == memberID) {
             assigneeObj = community[i];
         }
     }
+    console.log(' obj ' + assigneeObj);
+    console.log(' name ' + assigneeObj.name);
     try {
         rtrn.boolUnassigned = "false";
         rtrn.assignee = assigneeObj;
@@ -323,24 +301,13 @@ function completeAssignmentOfTask(){
 	refreshPage();
 }
 /*
- * Makes a rest call to get a specific task
+ * Makes a rest call to transition a Task to the Tasked Workflow step
  */
 function transitionToTasked(){
-    restAPI.getTaskByUid(function() {} , subTasked , "Tasking...");
-}
-/*
- * Makes a rest call to send the task to the 'task' workflow
- * transition state
- */
-function subTasked(response){
-    var json = JSON.stringify(response.responseJSON);
-    var js = JSON.parse(json);
-   if (js.state == "unassigned")
+    if( currentTask.state == "unassigned")
         alertPopup("Cannot task. Need Assignee Party");
     else
-        restAPI.transitionTask( function () {} , showTask , js , "task");
-    
-    customHideLoading();
+        restAPI.transitionTask( function () {} , showTask , currentTask , "task");
 }
 /*
  * Sends a rest call to transition the task to complete
@@ -348,6 +315,9 @@ function subTasked(response){
 function transitWorkflowComplete(response){
         var json = JSON.stringify(response.responseJSON);
         var js = JSON.parse(json).data;
+        console.log(response);
+        console.log(json);
+        console.log('complete' + js);
         restAPI.transitionTask(function () {}, completeCallLocate, js, "complete");
 }
 /*
@@ -437,3 +407,15 @@ function completeAddNotes(response){
     restAPI.updateTask( function() {} , customHideLoading , js, 'Saving...');
 }
 
+function listTaskCheckAction(){
+    restAPI.getTaskByUid(function() {} ,function(response){
+        if( response.status == 200 || response.status == 201 ||
+            response.status == 202 ) {
+
+            var getData = JSON.stringify(response.responseJSON);
+            console.log("get data here : " + getData);
+            currentTask = JSON.parse(getData);
+            taskComplete();
+        }
+    }, "Getting task...");
+}

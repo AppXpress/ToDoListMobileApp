@@ -83,7 +83,7 @@ function ajaxConnectPost(environment, url, dataVal, isCrossDomain, dataType,
                          successFunction, completeFunction, beforeSendFunction, errorFunction) {
     jQuery.support.cors = true;
     var urlAll = restServiceURL[environment] + url;
-    console.log(urlAll);
+    console.log("URL : " + urlAll);
     $.ajax({
         url : restServiceURL[environment] + url,
         type : 'POST',
