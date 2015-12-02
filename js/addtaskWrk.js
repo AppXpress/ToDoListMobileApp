@@ -32,8 +32,7 @@ function initTask(){
     }
 
 
-    restAPI.addTask( callSuccessTask , backToViewTask , title, description , assigneeObj, $('#taskAnchor').val() ,
-    	boolUnassign);
+    restAPI.addTask( callSuccessTask , backToViewTask , title, description , assigneeObj, $('#taskAnchor').val() );
 }
 /*
  * Cleans up after the task has been successfully created.
@@ -49,13 +48,13 @@ function backToViewTask(response) {
         console.log(eTag);
         var taskUID = JSON.parse(res).create.result.uid;
         var jsonStr = JSON.parse(res).create.result;
-        var isNotAssigned = JSON.parse(res).create.result.boolUnassigned;
         console.log(taskUID);
         $('body').data('eTag', "\""+eTag+"\"");
         $('body').data('taskuid', taskUID);
+        var hasAssignee = (JSON.parse(res).create.result.state == "assigned") ? true : false;
         //Transition Task to the 2nd state - the Assigned but Uncompleted State
         //Ignore if still not assigned to any party
-        if( isNotAssigned != "true")
+        if( hasAssignee )
         	restAPI.transitionTask( function() {} , function() {} , jsonStr , "assign");
 
         customHideLoading();

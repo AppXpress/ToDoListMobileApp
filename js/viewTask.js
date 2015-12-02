@@ -54,16 +54,16 @@ function displayTask(response){
         
         if( PARTY_ROLE == "buyer" ){
         	var assignTxt;
-        	if(currentTask.boolUnassigned == "true" && currentTask.state != "completed") {
+        	if(currentTask.state == "unassigned") {
             	assignTxt = $('<a href="#popupAssign" data-rel="popup"> Assign Task </a>');
             	if(!community)
                 	restAPI.getCommunity(function(){} , initAssignPopup, "Locating community...");
             	else
                 	initAssignPopup();
         	}
-            else if( currentTask.boolUnassigned == "true" && currentTask.state == "completed" ){
-                assignTxt = $('<h3> Task was never assigned </h3>');
-            }
+                //else if( currentTask.boolUnassigned == "true" && currentTask.state == "completed" ){
+            //    assignTxt = $('<h3> Task was never assigned </h3>');
+           // }
        		else
             	assignTxt = $('<h3> Task Assigned to : ' + currentTask.assignee.name + '</h3>');
             $("#showIndivTask").append(assignTxt);
@@ -267,7 +267,7 @@ function addAssignee( rtrn , memberID){
     console.log(' obj ' + assigneeObj);
     console.log(' name ' + assigneeObj.name);
     try {
-        rtrn.boolUnassigned = "false";
+        //rtrn.boolUnassigned = "false";
         rtrn.assignee = assigneeObj;
         restAPI.updateTask(callSuccessTask, firstTransitionTask, rtrn, "Saving changes...");
     }

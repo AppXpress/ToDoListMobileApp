@@ -28,7 +28,7 @@ var AppXpress = function() {
      * Makes a rest call to create a new task and specifying certain fields
      * of the custom object according to user enter values
      */
-    this.addTask = function( success, complete, title, descr, assignee, anchor, unassign){
+    this.addTask = function( success, complete, title, descr, assignee, anchor ){
     	try{
         	console.log("in init task");
         	var newTask = {
@@ -37,7 +37,6 @@ var AppXpress = function() {
             	"description": descr ,
             	"listuid" : $('body').data('listuid') ,
             	"assignee": assignee ,
-            	"boolUnassigned" : unassign ,
                 "anchor": {
                     "type": "OrderDetail",
                     "transactionId": anchor
