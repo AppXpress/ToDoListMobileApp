@@ -5,16 +5,21 @@
  */
 
 var APP_SETTINGS = {
-    //EXAMPLE - https://platform-demo.gtnexus.com
-    host : '' ,                                      //ENTER GTNEXUS SERVER URL HERE
-    //EXAMPLE b8b9d6e519319c4337be5d8d39866d1974c13909
-    softwareProviderDataKey : '',                   //ADD ORG SPECIFIC DATAKEY HERE
-    //EXAMPLE $TAASKS1
-    taskObjectType : '' ,                           //ADD TASK GLOBAL IDENTIFIER HERE
-    //EXAMPLE $LISTS1
-    listObjectType : '' ,                           //ADD LIST GLOBAL IDENTIFER HERE
-    //EXAMPLE $CurrentUserS1
-    currentUserObjectType : ''                      //ADD CURRENT USER GLOBAL IDENTIFER HERE
+    //ENTER GTNEXUS SERVER URL HERE
+    host : '' ,                                      //EXAMPLE - https://platform-demo.gtnexus.com
+	
+    //ADD ORG SPECIFIC DATAKEY HERE
+    softwareProviderDataKey : '',                   //EXAMPLE b8b9d6e519319c4337be5d8d39866d1974c13909
+	
+    //ADD TASK GLOBAL IDENTIFIER HERE
+    taskObjectType : '' ,                           //EXAMPLE $TAASKS1
+	
+    //ADD LIST GLOBAL IDENTIFER HERE
+    listObjectType : '' ,                           //EXAMPLE $LISTS1
+	
+    //ADD CURRENT USER GLOBAL IDENTIFER HERE
+    currentUserObjectType : ''                      //EXAMPLE $CurrentUserS1	
+	
 };
 
 //Default api version - change if you are not using 310
