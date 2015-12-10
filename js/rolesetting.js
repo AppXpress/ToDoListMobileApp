@@ -3,23 +3,18 @@
  *  Global variables that dictate environment & global object types
  *
  */
-
+console.log('NEW APP HERE');
 var APP_SETTINGS = {
-    //ENTER GTNEXUS SERVER URL HERE
-    host : '' ,                                      //EXAMPLE - https://platform-demo.gtnexus.com
-	
-    //ADD ORG SPECIFIC DATAKEY HERE
-    softwareProviderDataKey : '',                   //EXAMPLE b8b9d6e519319c4337be5d8d39866d1974c13909
-	
-    //ADD TASK GLOBAL IDENTIFIER HERE
-    taskObjectType : '' ,                           //EXAMPLE $TASKS1
-	
-    //ADD LIST GLOBAL IDENTIFER HERE
-    listObjectType : '' ,                           //EXAMPLE $LISTS1
-	
-    //ADD CURRENT USER GLOBAL IDENTIFER HERE
-    currentUserObjectType : ''                      //EXAMPLE $CurrentUserS1	
-	
+    //EXAMPLE - https://platform-demo.gtnexus.com
+    host : 'https://commerce-supportq.qa.gtnexus.com' ,                                      //ENTER GTNEXUS SERVER URL HERE
+    //EXAMPLE b8b9d6e519319c4337be5d8d39866d1974c13909
+    softwareProviderDataKey : 'b8b9d6e559319c4887be5d8d39866d1974c139ef',                   //ADD ORG SPECIFIC DATAKEY HERE
+    //EXAMPLE $TASKS1
+    taskObjectType : '$TaskS1' ,                           //ADD TASK GLOBAL IDENTIFIER HERE
+    //EXAMPLE $LISTS1
+    listObjectType : '$ListS1' ,                           //ADD LIST GLOBAL IDENTIFER HERE
+    //EXAMPLE $CurrentUserS1
+    currentUserObjectType : '$CurrentUserS1'                      //ADD CURRENT USER GLOBAL IDENTIFER HERE
 };
 
 //Default api version - change if you are not using 310

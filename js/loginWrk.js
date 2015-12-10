@@ -54,11 +54,10 @@ function login() {
     createCookie(applicationAuthCookieName, authToken);
     createCookie(usernameCookieName, username);
     try{
-        var url = "?dataKey=" + APP_SETTINGS.softwareProviderDataKey;
         if( isNetworkAvailable() ){
+            console.log('enter available');
         	customShowLoading("Logging in...");
-        	ajaxConnect(url, 'GET', true, 'json', loginSuccess,
-            	completeCallback, setHeader, function(){});
+        	restAPI.logIn(loginSuccess, completeCallback);
         }
         else
         	showNoConnection();
@@ -101,11 +100,11 @@ function loginSuccess(response) {
  * On complete callback of login
  */
 function completeCallback(response) {
+    console.log('complete call back for login');
     if (response.status == 200 || response.status == 201
         || response.status == 202) {
             //var eTag = response.getResponseHeader('Etag');
             customHideLoading();
-            console.log('complete call back for login');
     }
     else {
         ajaxResponseErrorHandle(response.status);

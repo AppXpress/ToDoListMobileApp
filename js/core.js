@@ -61,13 +61,13 @@ function ajaxConnect(url, method, isCrossDomain, dataType,
                      successFunction, completeFunction, beforeSendFunction, errorFunction) {
     console.log("ajaxconnect");    	
     jQuery.support.cors = true;
-    var urlAll = APP_SETTINGS.host + url;
-    console.log("URL: "+urlAll );
+    var completeUrl = APP_SETTINGS.host + url;
+    console.log("URL: "+ completeUrl );
     $.ajax({
-        url : APP_SETTINGS.host + url,
+        url : completeUrl,
         type : method,
-        crossDomain : isCrossDomain,
-        cache : false,
+        //crossDomain : isCrossDomain,
+        //cache : false,
         dataType : dataType,
         success : successFunction,
         complete : completeFunction,
@@ -82,10 +82,10 @@ function ajaxConnect(url, method, isCrossDomain, dataType,
 function ajaxConnectPost( url, dataVal, isCrossDomain, dataType,
                          successFunction, completeFunction, beforeSendFunction, errorFunction) {
     jQuery.support.cors = true;
-    var urlAll = APP_SETTINGS.host + url;
-    console.log("URL : " + urlAll);
+    var completeUrl = APP_SETTINGS.host + url;
+    console.log("URL : " + completeUrl);
     $.ajax({
-        url : APP_SETTINGS.host + url,
+        url : completeUrl,
         type : 'POST',
         contentType : 'application/json',
         crossDomain : isCrossDomain,

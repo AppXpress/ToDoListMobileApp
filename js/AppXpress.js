@@ -13,6 +13,21 @@ var AppXpress = function() {
     this.taskGID = APP_SETTINGS.taskObjectType;
     this.currentUserGID = APP_SETTINGS.currentUserObjectType;
     this.listGID = APP_SETTINGS.listObjectType;
+    /*
+        Ensures the user can successfully log onto the GTN system
+     */
+    this.logIn = function(successFn, callbackFn){
+        try{
+            var urlParam = "?dataKey=" + this.softwareProviderDataKey;
+            ajaxConnect(urlParam, 'GET', true, 'json', successFn,
+                callbackFn, setHeader, function(){});
+        }
+        catch(e){
+            alertPopup(e);
+        }
+    }
+
+
 	/*
 	 * Makes a rest call the gets a specific task custom object
 	 * based on its unique UID. A tasks UID is stored in data associated
