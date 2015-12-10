@@ -12,7 +12,7 @@ var APP_SETTINGS = {
     softwareProviderDataKey : '',                   //EXAMPLE b8b9d6e519319c4337be5d8d39866d1974c13909
 	
     //ADD TASK GLOBAL IDENTIFIER HERE
-    taskObjectType : '' ,                           //EXAMPLE $TAASKS1
+    taskObjectType : '' ,                           //EXAMPLE $TASKS1
 	
     //ADD LIST GLOBAL IDENTIFER HERE
     listObjectType : '' ,                           //EXAMPLE $LISTS1
@@ -26,7 +26,7 @@ var APP_SETTINGS = {
 //App is untested for any other api version than 310
 var API_VERSION = '310';
 //Append API WebService endpoint to url
-APP_SETTINGS.url += "/rest/" + API_VERSION + "/";
+APP_SETTINGS.host += "/rest/" + API_VERSION + "/";
 
 
 
