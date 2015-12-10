@@ -54,10 +54,10 @@ function login() {
     createCookie(applicationAuthCookieName, authToken);
     createCookie(usernameCookieName, username);
     try{
-        var url = "?dataKey=" + softwareProviderDataKey;
+        var url = "?dataKey=" + APP_SETTINGS.softwareProviderDataKey;
         if( isNetworkAvailable() ){
         	customShowLoading("Logging in...");
-        	ajaxConnect(applicationHostName, url, 'GET', true, 'json', loginSuccess,
+        	ajaxConnect(url, 'GET', true, 'json', loginSuccess,
             	completeCallback, setHeader, function(){});
         }
         else

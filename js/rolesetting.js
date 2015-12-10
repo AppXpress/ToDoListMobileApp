@@ -1,28 +1,29 @@
 /*	Global settings
  *  
  *  Global variables that dictate environment & global object types
- * 
- * 
+ *
  */
-var restServiceURL = new Object();
-restServiceURL["SF"] = "https://test.salesforce.com/services/oauth2/token";
-restServiceURL["PROD"] = "../prod/rest/"; //"http://api.tradecard.com/rest/";
-restServiceURL["CQA"] = "../cqa/rest/"; //"http://cqa.tradecard.com/rest/";
-restServiceURL["SUPORT"] = "../support/rest/"; //"http://support.tradecard.com/rest/";
-restServiceURL["TRAINING"] = "../training/rest/"; //"http://training.tradecard.com/rest/";
-restServiceURL["QA"] = "http://commerce.qa.tradecard.com/rest/310/";
-restServiceURL["QA2"] = "http://commerce.qa2.tradecard.com/rest/310/";
-restServiceURL["SUPPORTQ"] = "https://commerce-supportq.qa.gtnexus.com/rest/310/";
 
-var softwareProviderDataKey = "b8b9d6e559319c4887be5d8d39866d1974c139ef";
+var APP_SETTINGS = {
+    //EXAMPLE - https://platform-demo.gtnexus.com
+    host : '' ,                                      //ENTER GTNEXUS SERVER URL HERE
+    //EXAMPLE b8b9d6e519319c4337be5d8d39866d1974c13909
+    softwareProviderDataKey : '',                   //ADD ORG SPECIFIC DATAKEY HERE
+    //EXAMPLE $TAASKS1
+    taskObjectType : '' ,                           //ADD TASK GLOBAL IDENTIFIER HERE
+    //EXAMPLE $LISTS1
+    listObjectType : '' ,                           //ADD LIST GLOBAL IDENTIFER HERE
+    //EXAMPLE $CurrentUserS1
+    currentUserObjectType : ''                      //ADD CURRENT USER GLOBAL IDENTIFER HERE
+};
 
-var applicationHostName = "SUPPORTQ";
+//Default api version - change if you are not using 310
+//App is untested for any other api version than 310
+var API_VERSION = '310';
+//Append API WebService endpoint to url
+APP_SETTINGS.url += "/rest/" + API_VERSION + "/";
 
-var taskGlobalType = "$TaskS1";
 
-var currentUserGlobalType = "$CurrentUserS1";
-
-var listGlobalType = "$ListS1";
 
 function initSettings(){
 	//Buyer Side

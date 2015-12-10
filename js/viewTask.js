@@ -11,14 +11,14 @@ var currentTask;
  */
 function showTask(){
     try{
-        var url = taskGlobalType + "/?dataKey=" + softwareProviderDataKey;
+        var url = APP_SETTINGS.taskObjectType + "/?dataKey=" + APP_SETTINGS.softwareProviderDataKey;
         console.log("click list uid " + $('body').data("listuid"));
 
         //Get uid of task clicked on
         url += "&id=" + $('body').data("taskuid");
         customShowLoading("Fetching task...");
         console.log(url);
-        ajaxConnect(applicationHostName, url, 'GET', true, 'json', fetchListSuccess,
+        ajaxConnect(url, 'GET', true, 'json', fetchListSuccess,
             displayTask, setHeader, connectionError);
     }catch(e){
         alertPopup(e);

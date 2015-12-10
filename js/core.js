@@ -57,14 +57,14 @@ function eraseCookie(name) {
 /*
  * Establishes an ajax connection to perform rest GET call
  */
-function ajaxConnect(environment, url, method, isCrossDomain, dataType,
+function ajaxConnect(url, method, isCrossDomain, dataType,
                      successFunction, completeFunction, beforeSendFunction, errorFunction) {
     console.log("ajaxconnect");    	
     jQuery.support.cors = true;
-    var urlAll = restServiceURL[environment] + url;
+    var urlAll = APP_SETTINGS.host + url;
     console.log("URL: "+urlAll );
     $.ajax({
-        url : restServiceURL[environment] + url,
+        url : APP_SETTINGS.host + url,
         type : method,
         crossDomain : isCrossDomain,
         cache : false,
@@ -79,13 +79,13 @@ function ajaxConnect(environment, url, method, isCrossDomain, dataType,
 /*
  * Establishes an ajax connection to perform rest POST call
  */
-function ajaxConnectPost(environment, url, dataVal, isCrossDomain, dataType,
+function ajaxConnectPost( url, dataVal, isCrossDomain, dataType,
                          successFunction, completeFunction, beforeSendFunction, errorFunction) {
     jQuery.support.cors = true;
-    var urlAll = restServiceURL[environment] + url;
+    var urlAll = APP_SETTINGS.host + url;
     console.log("URL : " + urlAll);
     $.ajax({
-        url : restServiceURL[environment] + url,
+        url : APP_SETTINGS.host + url,
         type : 'POST',
         contentType : 'application/json',
         crossDomain : isCrossDomain,
