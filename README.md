@@ -167,12 +167,23 @@ More information on Phone Gap can be found from their [installation guide] (http
 ### Platform Module Import
 ============================
 
-For the App to function correctly, the org id using the app must have access to the correct Platform Module that
-contains the Custom Objects that are used by the mobile app. The Platform Module is included when you pull this GIT
-repository, in the PM zip folder. In the GTNexus Plaform Console screen, press **Manage Modules** and then press
-**Tools -> Important** and select the PM folder. This will add this specific Platform Module to your Platform Console.
-Ensure that your org has the correct rights to access the $TaskS1 and $ListS1 custom objects( done in the admin environment) 
-and the app is ready to be used!
+For this TodoList App to function correctly, your user must have access to the platform module that contains the custom objects
+that are referenced by this app. Follow the [instructions] (https://developer.gtnexus.com/platform/platform-console/module-lifecycle#!/import-a-module) 
+on our developer site to import the **PM.zip** folder onto the GTNexus platform console. Once it is imported, you will see that each object in this platform module 
+(task, list and currentUser) will have a global object type field that is assigned by the server. Now, all we have to do is add the following code changes at the 
+top of the **js/roleSettings.js** file to ensure that the app is using your specific settings to give your user access to the correct objects.
+
+**Code Changes**
+
+Set the following properties of the **APP_SETTINGS** object that is initialized on line 6 of **roleSettings.js**
+
+*	Set **url** to the url of the server in which you are uploading the platform module on
+*	Set **softwareProviderDataKey** to your organizations unique provided dataKey
+*	Set **taskObjectType** to the global object type of the *task* object	
+*	Set **listObjectType** to the global object type of the *list* object
+*	Set **currentUserObjectType** to the global object type of the *list* object	
+
+After the **APP_SETTINGS** object is set up with your specific settings, the app is ready for use!
 
 ### Using the To-Do List App
 ============================
